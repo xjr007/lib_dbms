@@ -1,5 +1,4 @@
-# lib_dbms
-Library Database Management System (Full CRUD)
+# Library Database Management System (Full CRUD)
 
-# LIB:
+# ext LIB:
   - tkinter
