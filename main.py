@@ -1,12 +1,16 @@
 """
 Library Databse Management System.
 
-=================================
+==================================
 
 Basic CRUD from sqLite with Python
 """
 
 import tkinter as tk
+import tkinter.messagebox
+import libbooks_db
+
+# ==========local===============#
 
 
 class Library:
@@ -36,7 +40,7 @@ class Library:
         Sname = tk.StringVar()
         Adr1 = tk.StringVar()
         Adr2 = tk.StringVar()
-        pcd = tk.StringVar()
+        Pscd = tk.StringVar()
         MNo = tk.StringVar()
         BkID = tk.StringVar()
         BkTit = tk.StringVar()
@@ -47,6 +51,93 @@ class Library:
         LrF = tk.StringVar()
         DoD = tk.StringVar()
         DonL = tk.StringVar()
+
+        self.form_fields = [
+            Mty,
+            Ref,
+            Tit,
+            Fname,
+            Sname,
+            Adr1,
+            Adr2,
+            Pscd,
+            MNo,
+            BkID,
+            BkTit,
+            Auth,
+            DBo,
+            Dtd,
+            sPr,
+            LrF,
+            DoD,
+            DonL
+            ]
+
+# ====================================Function Declaration======================================== #
+
+        def i_exit():
+            """
+            Exit func.
+
+            i_exit() : exits program.
+            """
+            i_exit = tkinter.messagebox.askyesno("Library Database Management System",
+                                                 "Are you sure you want to exit?")
+            if i_exit > 0:
+                root.destroy()
+                return
+
+        def clear_data():
+            """
+            Clear func.
+
+            clear_data() : clears all form fields.
+            """
+            self.txt_member_type.delete(0, tk.END)
+            self.txt_ref.delete(0, tk.END)
+            self.txt_bk_id.delete(0, tk.END)
+            self.txt_bk_tit.delete(0, tk.END)
+            self.txt_tit.delete(0, tk.END)
+            self.txt_auth.delete(0, tk.END)
+            self.txt_fname.delete(0, tk.END)
+            self.txt_dt_brw.delete(0, tk.END)
+            self.txt_sname.delete(0, tk.END)
+            self.txt_dt_due.delete(0, tk.END)
+            self.txt_address_1.delete(0, tk.END)
+            self.txt_address_2.delete(0, tk.END)
+            self.txt_days_on_loan.delete(0, tk.END)
+            self.txt_late_rtn_fn.delete(0, tk.END)
+            self.txt_pstl_cd.delete(0, tk.END)
+            self.txt_dt_ovrdue.delete(0, tk.END)
+            self.txt_mbl_no.delete(0, tk.END)
+            self.txt_sel_pr.delete(0, tk.END)
+
+        def add_data():
+            if(len(Mty.get()) != 0):
+                libbooks_db.add_data_record(
+                    Mty.get(),
+                    Ref.get(),
+                    BkID.get(),
+                    BkTit.get(),
+                    Tit.get(),
+                    Auth.get(),
+                    Fname.get(),
+                    DBo.get(),
+                    Sname.get(),
+                    Dtd.get(),
+                    Adr1.get(),
+                    Adr2.get(),
+                    DonL.get(),
+                    LrF.get(),
+                    Pscd.get(),
+                    DoD.get(),
+                    MNo.get(),
+                    sPr.get()
+                    )
+
+                booklist.delete(0, tk.END)
+                booklist.insert(tk.END, Mty.get(), Ref.get(), BkID.get(), BkTit.get(), Tit.get(), Auth.get(), Fname.get(), DBo.get(),
+                                Sname.get(), Dtd.get(), Adr1.get(), Adr2.get(), DonL.get(), LrF.get(), Pscd.get(), DoD.get(), MNo.get(), sPr.get())
 
 # ==========================================Frames================================================ #
 
@@ -136,8 +227,8 @@ class Library:
         self.txt_tit.grid(row=2, column=1)
 
 # Author
-        self.lbl_auth = tk.Label(data_frame_left, font=('arial', 12, 'bold'), text='Author:', padx=2
-                                 , pady=2, bg='cadet blue')
+        self.lbl_auth = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                 text='Author:', padx=2, pady=2, bg='cadet blue')
         self.lbl_auth.grid(row=2, column=2, sticky=tk.W)
 
         self.txt_auth = tk.Entry(data_frame_left, font=('arial', 12, 'bold'), textvariable=Auth,
@@ -181,21 +272,21 @@ class Library:
         self.txt_dt_due.grid(row=4, column=3)
 
 # Address 1
-        self.lbl_address_1 = tk.Label(data_frame_left, font=('arial', 12, 'bold'), text='Address 1:'
-                                      , padx=2, pady=2, bg='cadet blue')
+        self.lbl_address_1 = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                      text='Address 1:', padx=2, pady=2, bg='cadet blue')
         self.lbl_address_1.grid(row=5, column=0, sticky=tk.W)
 
-        self.txt_adress_1 = tk.Entry(data_frame_left, font=('arial', 12, 'bold'), textvariable=Adr1,
-                                     width=25)
-        self.txt_adress_1.grid(row=5, column=1)
+        self.txt_address_1 = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                      textvariable=Adr1, width=25)
+        self.txt_address_1.grid(row=5, column=1)
 
 # Address 2
-        self.lbl_adress_2 = tk.Label(data_frame_left, font=('arial', 12, 'bold'), text='Address 2:',
-                                     padx=2, pady=2, bg='cadet blue')
-        self.lbl_adress_2.grid(row=5, column=2, sticky=tk.W)
+        self.lbl_address_2 = tk.Label(data_frame_left, font=(
+            'arial', 12, 'bold'), text='Address 2:', padx=2, pady=2, bg='cadet blue')
+        self.lbl_address_2.grid(row=5, column=2, sticky=tk.W)
 
-        self.txt_address_2 = tk.Entry(data_frame_left, font=('arial', 12, 'bold'), textvariable=Adr2
-                                      , width=25)
+        self.txt_address_2 = tk.Entry(data_frame_left, font=(
+            'arial', 12, 'bold'), textvariable=Adr2, width=25)
         self.txt_address_2.grid(row=5, column=3)
 
 # Days on Loan
@@ -206,6 +297,94 @@ class Library:
         self.txt_days_on_loan = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
                                          textvariable=DonL, width=25)
         self.txt_days_on_loan.grid(row=6, column=1)
+
+# Late Return Fine
+        self.lbl_late_rtn_fn = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                        text='Late Return Fine:', padx=2, pady=2, bg='cadet blue')
+        self.lbl_late_rtn_fn.grid(row=6, column=2, sticky=tk.W)
+
+        self.txt_late_rtn_fn = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                        textvariable=LrF, width=25)
+        self.txt_late_rtn_fn.grid(row=6, column=3)
+
+# Postal Code
+        self.lbl_pstl_cd = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                    text='Postal Code:', padx=2,
+                                    pady=2, bg='cadet blue')
+        self.lbl_pstl_cd.grid(row=7, column=0, sticky=tk.W)
+
+        self.txt_pstl_cd = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                    textvariable=Pscd, width=25)
+        self.txt_pstl_cd.grid(row=7, column=1)
+
+# Date Overdue
+        self.lbl_dt_ovrdue = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                      text='Date Overdue:', padx=2, pady=2, bg='cadet blue')
+        self.lbl_dt_ovrdue.grid(row=7, column=2, sticky=tk.W)
+
+        self.txt_dt_ovrdue = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                      textvariable=DoD, width=25)
+        self.txt_dt_ovrdue.grid(row=7, column=3)
+
+# Mobile Number
+        self.lbl_mbl_no = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                   text='Mobile Number:', padx=2, pady=2, bg='cadet blue')
+        self.lbl_mbl_no.grid(row=8, column=0, sticky=tk.W)
+
+        self.txt_mbl_no = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                   textvariable=MNo, width=25)
+        self.txt_mbl_no.grid(row=8, column=1)
+
+# Selling Price
+        self.lbl_sel_pr = tk.Label(data_frame_left, font=('arial', 12, 'bold'),
+                                   text='Selling Price:', padx=2, pady=2, bg='cadet blue')
+        self.lbl_sel_pr.grid(row=8, column=2, sticky=tk.W)
+
+        self.txt_sel_pr = tk.Entry(data_frame_left, font=('arial', 12, 'bold'),
+                                   textvariable=sPr, width=25)
+        self.txt_sel_pr.grid(row=8, column=3)
+
+# ===================================Listbox and Scrollbar======================================== #
+
+        scrollbar = tk.Scrollbar(data_frame_right)
+        scrollbar.grid(row=0, column=1, sticky='ns')
+
+        booklist = tk.Listbox(data_frame_right, width=45, height=12,
+                              font=('arial', 12, 'bold'), yscrollcommand=scrollbar.set)
+        booklist.grid(row=0, column=0, padx=8)
+        scrollbar.config(command=booklist.yview)
+
+
+# ======================================Buttons Widget============================================ #
+
+        self.btn_add_data = tk.Button(button_frame, text='Add Data', font=('arial', 14, 'bold'),
+                                      height=2, width=13, bd=4)
+        self.btn_add_data.grid(row=0, column=0)
+
+        self.btn_disp_data = tk.Button(button_frame, text='Display Data',
+                                       font=('arial', 14, 'bold'), height=2, width=13, bd=4)
+        self.btn_disp_data.grid(row=0, column=1)
+
+        self.btn_clr_data = tk.Button(button_frame, text='Clear Data', font=('arial', 14, 'bold'),
+                                      height=2, width=13, bd=4, command=clear_data)
+        self.btn_clr_data.grid(row=0, column=2)
+
+        self.btn_del_data = tk.Button(button_frame, text='Delete Data', font=('arial', 14, 'bold'),
+                                      height=2, width=13, bd=4)
+        self.btn_del_data.grid(row=0, column=3)
+
+        self.btn_upd_data = tk.Button(button_frame, text='Update Data', font=('arial', 14, 'bold'),
+                                      height=2, width=13, bd=4)
+        self.btn_upd_data.grid(row=0, column=4)
+
+        self.btn_srch_data = tk.Button(button_frame, text='Search Data', font=('arial', 14, 'bold'),
+                                       height=2, width=13, bd=4)
+        self.btn_srch_data.grid(row=0, column=5)
+
+        self.btn_exit = tk.Button(button_frame, text='Exit', font=('arial', 14, 'bold'),
+                                  height=2, width=13, bd=4, command=i_exit)
+        self.btn_exit.grid(row=0, column=6)
+
 # ======================================Initialization============================================ #
 
 
