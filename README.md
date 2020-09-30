@@ -2,3 +2,4 @@
 
 ## Modules:
   - tkinter
+  - sqlite3
