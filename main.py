@@ -52,26 +52,24 @@ class Library:
         DoD = tk.StringVar()
         DonL = tk.StringVar()
 
-        self.form_fields = [
-            Mty,
-            Ref,
-            Tit,
-            Fname,
-            Sname,
-            Adr1,
-            Adr2,
-            Pscd,
-            MNo,
-            BkID,
-            BkTit,
-            Auth,
-            DBo,
-            Dtd,
-            sPr,
-            LrF,
-            DoD,
-            DonL
-            ]
+        self.form_fields = [Mty.get(),
+                            Ref.get(),
+                            BkID.get(),
+                            BkTit.get(),
+                            Tit.get(),
+                            Auth.get(),
+                            Fname.get(),
+                            DBo.get(),
+                            Sname.get(),
+                            Dtd.get(),
+                            Adr1.get(),
+                            Adr2.get(),
+                            DonL.get(),
+                            LrF.get(),
+                            Pscd.get(),
+                            DoD.get(),
+                            MNo.get(),
+                            sPr.get()]
 
 # ====================================Function Declaration======================================== #
 
@@ -113,7 +111,12 @@ class Library:
             self.txt_sel_pr.delete(0, tk.END)
 
         def add_data():
-            if(len(Mty.get()) != 0):
+            """
+            Add data to database.
+
+            Database: libbooks_db
+            """
+            if len(Mty.get()) != 0:
                 libbooks_db.add_data_record(
                     Mty.get(),
                     Ref.get(),
@@ -136,8 +139,77 @@ class Library:
                     )
 
                 booklist.delete(0, tk.END)
-                booklist.insert(tk.END, Mty.get(), Ref.get(), BkID.get(), BkTit.get(), Tit.get(), Auth.get(), Fname.get(), DBo.get(),
-                                Sname.get(), Dtd.get(), Adr1.get(), Adr2.get(), DonL.get(), LrF.get(), Pscd.get(), DoD.get(), MNo.get(), sPr.get())
+                booklist.insert(tk.END,
+                                Mty.get(),
+                                Ref.get(),
+                                BkID.get(),
+                                BkTit.get(),
+                                Tit.get(),
+                                Auth.get(),
+                                Fname.get(),
+                                DBo.get(),
+                                Sname.get(),
+                                Dtd.get(),
+                                Adr1.get(),
+                                Adr2.get(),
+                                DonL.get(),
+                                LrF.get(),
+                                Pscd.get(),
+                                DoD.get(),
+                                MNo.get(),
+                                sPr.get())
+
+        def display_data():
+            """
+            Display data from database.
+
+            Database: libbooks_db
+            """
+            booklist.delete(0, tk.END)
+            for row in libbooks_db.view_data():
+                booklist.insert(tk.END, row)
+
+        def selected_book(e):
+            global book
+            search_book = booklist.curselection()[0]
+            book = booklist.get(search_book)
+
+            self.txt_member_type.delete(0, tk.END)
+            self.txt_member_type.insert(tk.END, book[1])
+            self.txt_ref.delete(0, tk.END)
+            self.txt_ref.insert(tk.END, book[2])
+            self.txt_bk_id.delete(0, tk.END)
+            self.txt_bk_id.insert(tk.END, book[3])
+            self.txt_bk_tit.delete(0, tk.END)
+            self.txt_bk_tit.insert(tk.END, book[4])
+            self.txt_tit.delete(0, tk.END)
+            self.txt_tit.insert(tk.END, book[5])
+            self.txt_auth.delete(0, tk.END)
+            self.txt_auth.insert(tk.END, book[6])
+            self.txt_fname.delete(0, tk.END)
+            self.txt_fname.insert(tk.END, book[7])
+            self.txt_dt_brw.delete(0, tk.END)
+            self.txt_dt_brw.insert(tk.END, book[8])
+            self.txt_sname.delete(0, tk.END)
+            self.txt_sname.insert(tk.END, book[9])
+            self.txt_dt_due.delete(0, tk.END)
+            self.txt_dt_due.insert(tk.END, book[10])
+            self.txt_address_1.delete(0, tk.END)
+            self.txt_address_1.insert(tk.END, book[11])
+            self.txt_address_2.delete(0, tk.END)
+            self.txt_address_2.insert(tk.END, book[12])
+            self.txt_days_on_loan.delete(0, tk.END)
+            self.txt_days_on_loan.insert(tk.END, book[13])
+            self.txt_late_rtn_fn.delete(0, tk.END)
+            self.txt_late_rtn_fn.insert(tk.END, book[14])
+            self.txt_pstl_cd.delete(0, tk.END)
+            self.txt_pstl_cd.insert(tk.END, book[15])
+            self.txt_dt_ovrdue.delete(0, tk.END)
+            self.txt_dt_ovrdue.insert(tk.END, book[16])
+            self.txt_mbl_no.delete(0, tk.END)
+            self.txt_mbl_no.insert(tk.END, book[17])
+            self.txt_sel_pr.delete(0, tk.END)
+            self.txt_sel_pr.insert(tk.END, book[18])
 
 # ==========================================Frames================================================ #
 
@@ -351,6 +423,7 @@ class Library:
 
         booklist = tk.Listbox(data_frame_right, width=45, height=12,
                               font=('arial', 12, 'bold'), yscrollcommand=scrollbar.set)
+        booklist.bind('<<ListboxSelect>>', selected_book)
         booklist.grid(row=0, column=0, padx=8)
         scrollbar.config(command=booklist.yview)
 
@@ -358,11 +431,12 @@ class Library:
 # ======================================Buttons Widget============================================ #
 
         self.btn_add_data = tk.Button(button_frame, text='Add Data', font=('arial', 14, 'bold'),
-                                      height=2, width=13, bd=4)
+                                      height=2, width=13, bd=4, command=add_data)
         self.btn_add_data.grid(row=0, column=0)
 
         self.btn_disp_data = tk.Button(button_frame, text='Display Data',
-                                       font=('arial', 14, 'bold'), height=2, width=13, bd=4)
+                                       font=('arial', 14, 'bold'), height=2, width=13, bd=4,
+                                       command=display_data)
         self.btn_disp_data.grid(row=0, column=1)
 
         self.btn_clr_data = tk.Button(button_frame, text='Clear Data', font=('arial', 14, 'bold'),
