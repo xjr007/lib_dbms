@@ -33,43 +33,42 @@ class Library:
         master.title("Library Database Management System")
         master.geometry("1350x750+0+0")
 
+        # Member Type
         Mty = tk.StringVar()
+        # Reference Number
         Ref = tk.StringVar()
+        # Title
         Tit = tk.StringVar()
+        # First Name
         Fname = tk.StringVar()
+        # Surname
         Sname = tk.StringVar()
+        # Adress 1
         Adr1 = tk.StringVar()
+        # Adress 2
         Adr2 = tk.StringVar()
+        # Postal Code
         Pscd = tk.StringVar()
+        # Mobile Number
         MNo = tk.StringVar()
+        # Book ID
         BkID = tk.StringVar()
+        # Book Title
         BkTit = tk.StringVar()
+        # Author
         Auth = tk.StringVar()
+        # Date Borrowed
         DBo = tk.StringVar()
+        # Date Due
         Dtd = tk.StringVar()
+        # Selling Price
         sPr = tk.StringVar()
+        # Late Return Fine
         LrF = tk.StringVar()
+        # Days over Due
         DoD = tk.StringVar()
+        # Days on Loan
         DonL = tk.StringVar()
-
-        self.form_fields = [Mty.get(),
-                            Ref.get(),
-                            BkID.get(),
-                            BkTit.get(),
-                            Tit.get(),
-                            Auth.get(),
-                            Fname.get(),
-                            DBo.get(),
-                            Sname.get(),
-                            Dtd.get(),
-                            Adr1.get(),
-                            Adr2.get(),
-                            DonL.get(),
-                            LrF.get(),
-                            Pscd.get(),
-                            DoD.get(),
-                            MNo.get(),
-                            sPr.get()]
 
 # ====================================Function Declaration======================================== #
 
@@ -118,46 +117,17 @@ class Library:
             """
             if len(Mty.get()) != 0:
                 libbooks_db.add_data_record(
-                    Mty.get(),
-                    Ref.get(),
-                    BkID.get(),
-                    BkTit.get(),
-                    Tit.get(),
-                    Auth.get(),
-                    Fname.get(),
-                    DBo.get(),
-                    Sname.get(),
-                    Dtd.get(),
-                    Adr1.get(),
-                    Adr2.get(),
-                    DonL.get(),
-                    LrF.get(),
-                    Pscd.get(),
-                    DoD.get(),
-                    MNo.get(),
-                    sPr.get()
-                    )
+                    Mty.get(), Ref.get(), Tit.get(), Fname.get(), Sname.get(),
+                    Adr1.get(), Adr2.get(), Pscd.get(), MNo.get(), BkID.get(),
+                    BkTit.get(), Auth.get(), DBo.get(), Dtd.get(), sPr.get(),
+                    LrF.get(), DoD.get(), DonL.get())
 
                 booklist.delete(0, tk.END)
                 booklist.insert(tk.END,
-                                Mty.get(),
-                                Ref.get(),
-                                BkID.get(),
-                                BkTit.get(),
-                                Tit.get(),
-                                Auth.get(),
-                                Fname.get(),
-                                DBo.get(),
-                                Sname.get(),
-                                Dtd.get(),
-                                Adr1.get(),
-                                Adr2.get(),
-                                DonL.get(),
-                                LrF.get(),
-                                Pscd.get(),
-                                DoD.get(),
-                                MNo.get(),
-                                sPr.get())
+                                Mty.get(), Ref.get(), Tit.get(), Fname.get(), Sname.get(),
+                                Adr1.get(), Adr2.get(), Pscd.get(), MNo.get(), BkID.get(),
+                                BkTit.get(), Auth.get(), DBo.get(), Dtd.get(), sPr.get(),
+                                LrF.get(), DoD.get(), DonL.get())
 
         def display_data():
             """
@@ -210,6 +180,36 @@ class Library:
             self.txt_mbl_no.insert(tk.END, book[17])
             self.txt_sel_pr.delete(0, tk.END)
             self.txt_sel_pr.insert(tk.END, book[18])
+
+        def delete_record():
+            if len(Mty.get()) != 0:
+                libbooks_db.delete_record(book[0])
+                clear_data()
+                display_data()
+
+        def search_data():
+            usr_data = libbooks_db.search_data(Mty.get(), Ref.get(), Tit.get(),
+                                               Fname.get(), Sname.get(),
+                                               Adr1.get(), Adr2.get(),
+                                               Pscd.get(), MNo.get(),
+                                               BkID.get(), BkTit.get(),
+                                               Auth.get(), DBo.get(),
+                                               Dtd.get(), sPr.get(),
+                                               LrF.get(), DoD.get(), DonL.get())
+            booklist.delete(0, tk.END)
+            for record in usr_data:
+                booklist.insert(tk.END, record)
+
+        def update_data():
+            if len(Mty.get()) != 0:
+                libbooks_db.update_data(Mty.get(), Ref.get(), Tit.get(),
+                                        Fname.get(), Sname.get(),
+                                        Adr1.get(), Adr2.get(),
+                                        Pscd.get(), MNo.get(),
+                                        BkID.get(), BkTit.get(),
+                                        Auth.get(), DBo.get(),
+                                        Dtd.get(), sPr.get(),
+                                        LrF.get(), DoD.get(), DonL.get())
 
 # ==========================================Frames================================================ #
 
@@ -444,15 +444,15 @@ class Library:
         self.btn_clr_data.grid(row=0, column=2)
 
         self.btn_del_data = tk.Button(button_frame, text='Delete Data', font=('arial', 14, 'bold'),
-                                      height=2, width=13, bd=4)
+                                      height=2, width=13, bd=4, command=delete_record)
         self.btn_del_data.grid(row=0, column=3)
 
         self.btn_upd_data = tk.Button(button_frame, text='Update Data', font=('arial', 14, 'bold'),
-                                      height=2, width=13, bd=4)
+                                      height=2, width=13, bd=4, command=update_data)
         self.btn_upd_data.grid(row=0, column=4)
 
         self.btn_srch_data = tk.Button(button_frame, text='Search Data', font=('arial', 14, 'bold'),
-                                       height=2, width=13, bd=4)
+                                       height=2, width=13, bd=4, command=search_data)
         self.btn_srch_data.grid(row=0, column=5)
 
         self.btn_exit = tk.Button(button_frame, text='Exit', font=('arial', 14, 'bold'),
