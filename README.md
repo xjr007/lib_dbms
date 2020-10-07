@@ -3,3 +3,5 @@
 ## Modules:
   - tkinter
   - sqlite3
+
+ Basic CRUD functionality 
