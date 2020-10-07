@@ -90,15 +90,15 @@ def search_data(Mty='', Ref='', Tit='', Fname='', Sname='', Adr1='', Adr2='',
     conn = sqlite3.connect('libbooks.db')
     curs = conn.cursor()
     curs.execute('SELECT * FROM libbooks WHERE \
-                Mty=?, Ref=?, Tit=?, Fname=?,\
-                Sname=?, Adr1=?, Adr2=?, Pscd=?,\
-                MNo=?, BkID=?, BkTit=?, Auth=?, \
-                DBo=?, Dtd=?, sPr=?, LrF=?, DoD=\
-                ?, DonL=?',
+                (Mty=? OR Ref=? OR Tit=? OR Fname=? OR\
+                Sname=? OR Adr1=? OR Adr2=? OR Pscd=? OR\
+                MNo=? OR BkID=? OR BkTit=? OR Auth=? OR \
+                DBo=? OR Dtd=? OR sPr=? OR LrF=? OR DoD=\
+                ? OR DonL=?)',
                  (Mty, Ref, Tit, Fname,
                   Sname, Adr1, Adr2, Pscd,
                   MNo, BkID, BkTit, Auth, DBo, Dtd,
-                  sPr, LrF, DoD, DonL))
+                  sPr, LrF, DoD, DonL,))
     data = curs.fetchall()
     conn.close()
     return data
@@ -114,12 +114,12 @@ def update_data(id_, Mty='', Ref='', Tit='', Fname='', Sname='', Adr1='', Adr2='
     """
     conn = sqlite3.connect('libbooks.db')
     curs = conn.cursor()
-    curs.execute('UPDATE libbooks SET \
+    curs.execute('UPDATE libbooks SET\
                 Mty=?, Ref=?, Tit=?, Fname=?,\
                 Sname=?, Adr1=?, Adr2=?, Pscd=?,\
                 MNo=?, BkID=?, BkTit=?, Auth=?, \
-                DBo=?, Dtd=?, sPr=?, LrF=?, DoD=\
-                ?, DonL=? WHERE id=?',
+                DBo=?, Dtd=?, sPr=?, LrF=?, DoD=? \
+                , DonL=? WHERE id=?',
                  (Mty, Ref, Tit, Fname,
                   Sname, Adr1, Adr2, Pscd,
                   MNo, BkID, BkTit, Auth, DBo, Dtd,

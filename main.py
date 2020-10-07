@@ -140,50 +140,50 @@ class Library:
                 booklist.insert(tk.END, row)
 
         def selected_book(e):
-            global book
+            global BOOK
             search_book = booklist.curselection()[0]
-            book = booklist.get(search_book)
+            BOOK = booklist.get(search_book)
 
             self.txt_member_type.delete(0, tk.END)
-            self.txt_member_type.insert(tk.END, book[1])
+            self.txt_member_type.insert(tk.END, BOOK[1])
             self.txt_ref.delete(0, tk.END)
-            self.txt_ref.insert(tk.END, book[2])
-            self.txt_bk_id.delete(0, tk.END)
-            self.txt_bk_id.insert(tk.END, book[3])
-            self.txt_bk_tit.delete(0, tk.END)
-            self.txt_bk_tit.insert(tk.END, book[4])
+            self.txt_ref.insert(tk.END, BOOK[2])
             self.txt_tit.delete(0, tk.END)
-            self.txt_tit.insert(tk.END, book[5])
-            self.txt_auth.delete(0, tk.END)
-            self.txt_auth.insert(tk.END, book[6])
+            self.txt_tit.insert(tk.END, BOOK[3])
             self.txt_fname.delete(0, tk.END)
-            self.txt_fname.insert(tk.END, book[7])
-            self.txt_dt_brw.delete(0, tk.END)
-            self.txt_dt_brw.insert(tk.END, book[8])
+            self.txt_fname.insert(tk.END, BOOK[4])
             self.txt_sname.delete(0, tk.END)
-            self.txt_sname.insert(tk.END, book[9])
-            self.txt_dt_due.delete(0, tk.END)
-            self.txt_dt_due.insert(tk.END, book[10])
+            self.txt_sname.insert(tk.END, BOOK[5])
             self.txt_address_1.delete(0, tk.END)
-            self.txt_address_1.insert(tk.END, book[11])
+            self.txt_address_1.insert(tk.END, BOOK[6])
             self.txt_address_2.delete(0, tk.END)
-            self.txt_address_2.insert(tk.END, book[12])
-            self.txt_days_on_loan.delete(0, tk.END)
-            self.txt_days_on_loan.insert(tk.END, book[13])
-            self.txt_late_rtn_fn.delete(0, tk.END)
-            self.txt_late_rtn_fn.insert(tk.END, book[14])
+            self.txt_address_2.insert(tk.END, BOOK[7])
             self.txt_pstl_cd.delete(0, tk.END)
-            self.txt_pstl_cd.insert(tk.END, book[15])
-            self.txt_dt_ovrdue.delete(0, tk.END)
-            self.txt_dt_ovrdue.insert(tk.END, book[16])
+            self.txt_pstl_cd.insert(tk.END, BOOK[8])
             self.txt_mbl_no.delete(0, tk.END)
-            self.txt_mbl_no.insert(tk.END, book[17])
+            self.txt_mbl_no.insert(tk.END, BOOK[9])
+            self.txt_bk_id.delete(0, tk.END)
+            self.txt_bk_id.insert(tk.END, BOOK[10])
+            self.txt_bk_tit.delete(0, tk.END)
+            self.txt_bk_tit.insert(tk.END, BOOK[11])
+            self.txt_auth.delete(0, tk.END)
+            self.txt_auth.insert(tk.END, BOOK[12])
+            self.txt_dt_brw.delete(0, tk.END)
+            self.txt_dt_brw.insert(tk.END, BOOK[13])
+            self.txt_dt_due.delete(0, tk.END)
+            self.txt_dt_due.insert(tk.END, BOOK[14])
             self.txt_sel_pr.delete(0, tk.END)
-            self.txt_sel_pr.insert(tk.END, book[18])
+            self.txt_sel_pr.insert(tk.END, BOOK[15])
+            self.txt_late_rtn_fn.delete(0, tk.END)
+            self.txt_late_rtn_fn.insert(tk.END, BOOK[16])
+            self.txt_dt_ovrdue.delete(0, tk.END)
+            self.txt_dt_ovrdue.insert(tk.END, BOOK[17])
+            self.txt_days_on_loan.delete(0, tk.END)
+            self.txt_days_on_loan.insert(tk.END, BOOK[18])
 
         def delete_record():
             if len(Mty.get()) != 0:
-                libbooks_db.delete_record(book[0])
+                libbooks_db.delete_record(BOOK[0])
                 clear_data()
                 display_data()
 
@@ -202,7 +202,7 @@ class Library:
 
         def update_data():
             if len(Mty.get()) != 0:
-                libbooks_db.update_data(Mty.get(), Ref.get(), Tit.get(),
+                libbooks_db.update_data(BOOK[0], Mty.get(), Ref.get(), Tit.get(),
                                         Fname.get(), Sname.get(),
                                         Adr1.get(), Adr2.get(),
                                         Pscd.get(), MNo.get(),
